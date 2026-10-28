@@ -1,0 +1,36 @@
+# Formatting and linting tasks.
+#
+# `mise run fmt` writes; `mise run check` only reads. Both run the same tools so a local
+# fix and the CI gate cannot drift apart.
+
+[tasks.fmt]
+description = "Format Python and Markdown"
+run = [
+    "ruff check --select I --fix scripts/ tests/ .config/mise/scripts/",
+    "ruff format scripts/ tests/ .config/mise/scripts/",
+    "rumdl fmt --config .config/rumdl.toml ./",
+]
+
+[tasks.fmt-md]
+description = "Format Markdown with rumdl (writes)"
+run = "rumdl fmt --config .config/rumdl.toml ./"
+
+[tasks.lint]
+description = "Lint Python (ruff: all rules selected in ruff.toml)"
+run = "ruff check scripts/ tests/ .config/mise/scripts/"
+
+[tasks.lint-md]
+description = "Lint Markdown with rumdl (no writes)"
+run = "rumdl check --config .config/rumdl.toml ./"
+
+[tasks.typecheck]
+description = "Type-check scripts and tests with ty"
+run = "ty check"
+
+[tasks.test]
+description = "Run the detector regression suite"
+run = "uv run pytest"
+
+[tasks.audit]
+description = "Run the audit on a path, e.g. `mise run audit crates/`"
+run = "uv run scripts/audit.py"

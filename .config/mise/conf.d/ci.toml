@@ -1,0 +1,13 @@
+# `mise run check` — the single gate that must be green before a commit.
+#
+# The self test runs the audit script as a subprocess, exactly as a user would, so it also
+# covers the shebang/PEP 723 metadata and the exit-code contract.
+
+[tasks.self-test]
+description = "Run the audit script's own regression groups"
+run = "uv run scripts/self_test.py"
+
+[tasks.check]
+description = "Lint, type-check, test and self-test everything"
+depends = ["lint", "lint-md", "typecheck", "test", "self-test"]
+run = "echo 'all gates green'"

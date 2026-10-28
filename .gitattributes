@@ -1,0 +1,2 @@
+# Normalise line endings: the repo is developed on Windows and CI runs on Linux too.
+* text=auto eol=lf

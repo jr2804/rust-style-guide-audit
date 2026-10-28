@@ -1,0 +1,9 @@
+# rumdl configuration — Markdown linting and formatting.
+#
+# Line-length checking is off: the catalog is a dense table set and the playbook carries
+# long Rust signatures inside fenced blocks, which no reflow can improve.
+[global]
+disable = ["MD013"]
+exclude = ["tmp", ".venv", "node_modules", ".agents"]
+line-length = 100
+flavor = "gfm"

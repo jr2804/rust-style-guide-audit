@@ -1,0 +1,37 @@
+# mise configuration for the rust-style-guide-audit skill repository.
+#
+# Task definitions live in conf.d/*.toml, which mise loads automatically. This file only
+# pins the tools and the cross-cutting settings.
+[tools]
+# uv is the runner for every Python entry point here (PEP 723 scripts + the dev venv).
+uv = "latest"
+bun = "latest"
+
+# Linters / type checker / formatters
+ruff = "latest"
+ty = "latest"
+rumdl = "latest"
+
+# Validates the SKILL.md frontmatter against the Agent Skills specification.
+"pypi:skills-ref" = "latest"
+
+# CLI niceties: `rg --files | tree-cli --fromfile` renders the project tree.
+ripgrep = "latest"
+"github:peteretelej/tree" = { version = "latest", rename_exe = "tree-cli" }
+
+# Installs the skills referenced by `mise run add-skills`.
+"npm:skills" = "latest"
+
+[settings.npm]
+package_manager = "bun"
+
+[tasks.default]
+run = "mise tasks"
+
+[tasks.sync]
+description = "Sync the dev virtual environment with pyproject.toml"
+run = "uv sync --dev"
+
+[tasks.upgrade-tools]
+description = "Upgrade all tool versions"
+run = ["mise install", "mise up", "mise prune"]

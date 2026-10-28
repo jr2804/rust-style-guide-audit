@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[oc]
+.venv/
+*.egg-info/
+
+# Tool caches and scratch output — the pytest cache lives under tmp/ by design
+tmp/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.ty_cache/
+
+# Skills installed by `mise run add-skills` (vendored from upstream repos)
+.agents/skills/
+skills-lock.json
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local mise overrides and secrets
+mise.local.toml
+*.env
+.env
+
+# Build artifacts
+build/
+dist/

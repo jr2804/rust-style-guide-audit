@@ -1,0 +1,25 @@
+# Install the agent skills this repository is developed with.
+#
+# The CSVs in `.config/mise/data/` are the single source of truth:
+#
+#   skills.csv        enabled,category,repo,skill
+#   dev-features.csv  enabled,category,tool,tool_value,mcp_command,mcp_name,skill_repo,skill
+#
+# Add a row there and re-run the task; do not encode install commands in this file.
+# `mise run add-dev-features list` prints what would run without touching anything.
+
+[tasks.install-skill]
+description = "Install this skill into ~/.agents/skills so agents can invoke it"
+run = "bun x skills add jr2804/rust-style-guide-audit -a universal -y"
+
+[tasks.add-skills]
+description = "Install the companion skills listed in .config/mise/data/skills.csv"
+run = "uv run .config/mise/scripts/install_dev_features.py add-skills"
+
+[tasks.add-dev-features]
+description = "Pin tools, register MCP servers and install skills from the CSVs (dry run with `list`)"
+run = "uv run .config/mise/scripts/install_dev_features.py add-dev-features"
+
+[tasks.list-skills]
+description = "List the skills currently installed for agents"
+run = "bun x skills list"

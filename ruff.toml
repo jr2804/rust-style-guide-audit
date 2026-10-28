@@ -1,0 +1,41 @@
+unsafe-fixes = true
+exclude = [".venv", "tmp", "build", "dist", "__pycache__", "scripts/fixtures"]
+target-version = "py310"
+# The rule table is a wall of `rule("ID", "title", "guide section", …)` calls whose strings
+# are copied from the guide's headings; 120 keeps one rule per line without turning the
+# table into an unreadable column. The report renderer and the regexes follow the same wrap.
+line-length = 120
+
+[lint]
+preview = true
+explicit-preview-rules = true
+select = [
+    "E",     # pycodestyle errors
+    "F",     # Pyflakes
+    "W",     # pycodestyle warnings
+    "I",     # isort
+    "B",     # flake8-bugbear
+    "C4",    # flake8-comprehensions
+    "SIM",   # flake8-simplify
+    "UP",    # pyupgrade
+    "PT",    # flake8-pytest-style
+    "RUF",   # Ruff-specific
+]
+extend-select = ["RUF022"]
+ignore = [
+    # The audit is a regex-driven heuristic over Rust source; long branches are inherent to
+    # it and splitting them into per-rule functions would hide the shared scan loop.
+    "PLR0912",
+    "PLR0915",
+]
+
+[lint.per-file-ignores]
+# Tests assert on exact line numbers, so magic values are the subject matter, not a smell.
+"tests/**/*.py" = ["PLR2004"]
+
+[lint.isort]
+known-first-party = ["audit"]
+
+[format]
+docstring-code-format = true
+docstring-code-line-length = 100
