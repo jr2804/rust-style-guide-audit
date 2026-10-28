@@ -218,5 +218,5 @@ complement, not a competitor: run both.
 
 ## License
 
-MIT for the code and this repository's prose. The audited guide is Google's, CC BY 3.0 — see
-[Credits](#credits).
+MIT for the code and this repository's prose — see [LICENSE](LICENSE). The audited guide is
+Google's, CC BY 3.0; [NOTICE](NOTICE) records what is quoted and from where.
