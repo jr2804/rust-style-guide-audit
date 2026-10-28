@@ -1,6 +1,6 @@
 [project]
 name = "rust-style-guide-audit"
-version = "0.1.0"
+version = "2026.10.1"
 description = "Agent skill and audit CLI that finds violations of the Google Rust Style Guide and proposes refactors."
 readme = "README.md"
 license = { text = "MIT" }
@@ -25,6 +25,6 @@ dev = ["pytest>=9.0"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = [".", "scripts"]
+pythonpath = [".", "skills/rust-style-guide-audit/scripts"]
 cache_dir = "tmp/pytest-cache"
 addopts = "-v --tb=short"

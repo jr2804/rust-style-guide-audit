@@ -44,8 +44,8 @@ project usually has its own unrelated `scripts/` folder, and `uv run scripts/aud
 resolved against the project root would pick that one up instead:
 
 ```bash
-cd /path/to/rust-style-guide-audit && uv run scripts/audit.py /path/to/crate
-uv run /path/to/rust-style-guide-audit/scripts/audit.py /path/to/crate
+cd ~/.agents/skills/rust-style-guide-audit && uv run scripts/audit.py /path/to/crate
+uv run ~/.agents/skills/rust-style-guide-audit/scripts/audit.py /path/to/crate
 ```
 
 ## Workflow

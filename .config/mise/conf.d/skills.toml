@@ -27,5 +27,6 @@ run = "bun x skills list"
 [tasks.validate-skill]
 description = "Validate SKILL.md against the Agent Skills specification"
 # The validator compares the frontmatter `name` with the directory's basename, so it needs
-# the absolute path — `validate .` fails with "Directory name '' must match skill name".
-run = "uvx --from skills-ref agentskills validate {{config_root}}"
+# the absolute path of the skill folder — `validate .` fails with
+# "Directory name '' must match skill name".
+run = "uvx --from skills-ref agentskills validate {{config_root}}/skills/rust-style-guide-audit"

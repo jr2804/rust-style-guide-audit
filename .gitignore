@@ -15,6 +15,23 @@ tmp/
 .agents/skills/
 skills-lock.json
 
+# Keep .agents/ DOX files tracked (override any blanket ignore)
+/.agents/*
+!/.agents/*.md
+!/.agents/history/
+!/.agents/history/**
+!/.agents/files/
+!/.agents/files/**
+!/.agents/policies/
+!/.agents/policies/**
+!/.agents/tools/
+!/.agents/tools/**
+!/.agents/maintenance/
+!/.agents/maintenance/**
+
+# Implementation plans — mutable working artifacts, never committed
+/.agents/plans/
+
 # Editors / OS
 .vscode/
 .idea/
@@ -29,3 +46,4 @@ mise.local.toml
 # Build artifacts
 build/
 dist/
+/.rumdl_cache

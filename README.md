@@ -73,10 +73,11 @@ Rust style review — the skill description carries the trigger words.
 ### As a one-off script
 
 `scripts/audit.py` declares its own PEP 723 metadata and imports only the standard library, so
-`uv` can run it straight from a checkout with no environment:
+`uv` can run it straight from a checkout with no environment. The skill lives in
+`skills/rust-style-guide-audit/`, which is the layout skill discovery expects:
 
 ```bash
-uv run scripts/audit.py path/to/crate
+uv run skills/rust-style-guide-audit/scripts/audit.py path/to/crate
 ```
 
 ### With mise
@@ -91,7 +92,7 @@ mise run sync     # dev virtualenv for the tests
 ## Usage
 
 ```bash
-uv run scripts/audit.py <paths...> [options]
+uv run skills/rust-style-guide-audit/scripts/audit.py <paths...> [options]
 ```
 
 | Option | Meaning |
@@ -170,16 +171,20 @@ signal the detector needs tightening.
 ## Layout
 
 ```text
-SKILL.md                        the agent skill: invocation, workflow, report shape
-references/rules-catalog.md     all 66 rules: guide section, severity, scope, rationale, fix
-references/refactoring-playbook.md   how to turn a finding into a reviewable refactor
-scripts/audit.py                the checker (stdlib only, PEP 723)
-scripts/self_test.py            regression groups: firing, false positives, suppressions, scope
-scripts/fixtures/violations.rs  one construct per rule, pinned to exact line numbers
+skills/rust-style-guide-audit/          the skill folder — what the ZIP wraps
+  SKILL.md                      the agent skill: invocation, workflow, report shape
+  references/rules-catalog.md   all 66 rules: guide section, severity, scope, rationale, fix
+  references/refactoring-playbook.md   how to turn a finding into a reviewable refactor
+  scripts/audit.py              the checker (stdlib only, PEP 723)
+  scripts/self_test.py          regression groups: firing, false positives, suppressions, scope
+  scripts/fixtures/violations.rs  one construct per rule, pinned to exact line numbers
+  scripts/release.py            CalVer stamp, importable ZIP, tag and GitHub release
+  AGENTS.md                     the working contract for that folder
 tests/test_audit.py             the same groups as pytest cases, plus catalog/script drift
+tests/test_release.py           version derivation and archive layout
 .config/mise/                   tool pins, tasks, and the skill-install CSVs
 .config/rumdl.toml, ruff.toml, ty.toml   linter configs
-.github/workflows/ci.yml        runs `mise run check` on Linux and Windows
+.githooks/pre-push              refuses a push that is not stamped for its commit
 AGENTS.md                       the working contract for this repository
 ```
 
@@ -196,12 +201,50 @@ Tooling: [ruff](https://docs.astral.sh/ruff/) and [ty](https://docs.astral.sh/ty
 [rumdl](https://github.com/rvben/rumdl) for Markdown, [mise](https://mise.jdx.dev/) to pin them
 and run the tasks.
 
+## Versioning and releases
+
+There is no CI. One command does the whole release, locally, from the commit that is being
+shipped:
+
+```bash
+mise run hooks     # once: core.hooksPath=.githooks
+mise run release   # check → stamp → ZIP → commit → tag → push → GitHub release
+```
+
+**Versions are CalVer `year.month.release`**, taken from the commit's own date — never from the
+clock and never from the day of the month. The first release in October 2026 is `2026.10.1`,
+the next is `2026.10.2`, and November starts again at `2026.11.1`; the counter is read from the
+`v<version>` tags that already exist. Because the year and month come from the commit, re-running
+a release is a no-op instead of a bump.
+
+`2026.10.1` is a valid PEP 440 version, so `pyproject.toml` and `VERSION` can hold the same
+string the tag and the ZIP name do.
+
+**The artefact is `dist/rust-style-guide-audit-<version>.zip`** — one top-level
+`rust-style-guide-audit/` directory holding `SKILL.md`, `references/`, `scripts/` and the
+licence files, which is the layout an importer expects. `mise run release` attaches it to the
+GitHub release for the tag, so it can be downloaded and imported without cloning — take the
+asset from the [releases page](https://github.com/jr2804/rust-style-guide-audit/releases), or
+
+```bash
+version=$(uv run skills/rust-style-guide-audit/scripts/release.py version)
+curl -L -o skill.zip \
+  "https://github.com/jr2804/rust-style-guide-audit/releases/download/v$version/rust-style-guide-audit-$version.zip"
+unzip skill.zip -d ~/.agents/skills/
+```
+
+The dev surface (`tests/`, `.config/`, `AGENTS.md`) is deliberately not in the archive.
+
+`mise run release-dry` stops after tagging; `mise run package` only rebuilds the ZIP;
+`.githooks/pre-push` runs `scripts/release.py check` and refuses a push whose `pyproject.toml`
+version does not match its commit, so an unstamped tree cannot reach `main`.
+
 ### Changing a detector
 
-1. Add the construct to `scripts/fixtures/violations.rs`.
-2. Add the expected line to `EXPECT_VIOLATIONS` in `scripts/self_test.py`.
+1. Add the construct to `skills/rust-style-guide-audit/scripts/fixtures/violations.rs`.
+2. Add the expected line to `EXPECT_VIOLATIONS` in `skills/rust-style-guide-audit/scripts/self_test.py`.
 3. If the rule must *not* fire on a neighbouring construct, add it to `MUST_NOT_FIRE_AT`.
-4. Change `scripts/audit.py`.
+4. Change `skills/rust-style-guide-audit/scripts/audit.py`.
 5. `mise run check` — all five regression groups plus pytest must pass.
 
 The check-then-unwrap trap is instructive: `if x.is_none() { … }` followed by `x.unwrap()`
@@ -213,7 +256,7 @@ false errors before it was split.
 
 The audit is text-pattern based. It does not expand macros, resolve types, or build a module
 graph, so expect false negatives in macro-heavy code and false positives on generics. The
-known gaps are listed in Appendix B of `references/rules-catalog.md`. Clippy is treated as a
+known gaps are listed in Appendix B of `skills/rust-style-guide-audit/references/rules-catalog.md`. Clippy is treated as a
 complement, not a competitor: run both.
 
 ## License

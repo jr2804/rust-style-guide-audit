@@ -1,11 +1,9 @@
-# `mise run check` — the single gate that must be green before a commit.
-#
-# The self test runs the audit script as a subprocess, exactly as a user would, so it also
-# covers the shebang/PEP 723 metadata and the exit-code contract.
+# Local gates. This repository has no CI: `mise run check` is what a commit must pass,
+# and `.githooks/pre-push` (installed by `mise run hooks`) refuses an unstamped push.
 
 [tasks.self-test]
 description = "Run the audit script's own regression groups"
-run = "uv run scripts/self_test.py"
+run = "uv run skills/rust-style-guide-audit/scripts/self_test.py"
 
 [tasks.check]
 description = "Lint, type-check, test and self-test everything"

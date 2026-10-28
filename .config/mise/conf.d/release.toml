@@ -1,0 +1,27 @@
+# Release: CalVer stamp + importable ZIP, produced locally (there is no CI here).
+#
+# `mise run release` is one step: it stamps pyproject.toml/VERSION with the CalVer version
+# of HEAD, builds `dist/<name>-<version>.zip`, commits the stamp, tags `v<version>`, pushes
+# with tags and attaches the ZIP to a GitHub release. `scripts/release.py` owns the logic;
+# these tasks are thin wrappers so the workflow is discoverable.
+
+[tasks.hooks]
+description = "Install the pre-push gate (core.hooksPath=.githooks)"
+run = "git config core.hooksPath .githooks"
+
+[tasks.release]
+description = "Stamp CalVer, build the importable ZIP, tag and publish"
+depends = ["check"]
+run = "uv run skills/rust-style-guide-audit/scripts/release.py release"
+
+[tasks.release-dry]
+description = "Stamp, build the ZIP and tag, but do not push"
+run = "uv run skills/rust-style-guide-audit/scripts/release.py release --no-push"
+
+[tasks.package]
+description = "Build dist/<name>-<calver>.zip from the current tree"
+run = "uv run skills/rust-style-guide-audit/scripts/release.py package"
+
+[tasks.version]
+description = "Print the CalVer version of HEAD"
+run = "uv run skills/rust-style-guide-audit/scripts/release.py version"

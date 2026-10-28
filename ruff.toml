@@ -1,5 +1,5 @@
 unsafe-fixes = true
-exclude = [".venv", "tmp", "build", "dist", "__pycache__", "scripts/fixtures"]
+exclude = [".venv", "tmp", "build", "dist", "__pycache__", "skills/rust-style-guide-audit/scripts/fixtures"]
 target-version = "py310"
 # The rule table is a wall of `rule("ID", "title", "guide section", …)` calls whose strings
 # are copied from the guide's headings; 120 keeps one rule per line without turning the

@@ -3,12 +3,15 @@
 This repository encodes the **Google Rust Style Guide**,
 <https://google.github.io/styleguide/rustguide.html>.
 
+The skill itself lives in `skills/rust-style-guide-audit/`: `SKILL.md`, its `references/` and
+its `scripts/`. Other paths below are relative to that folder unless stated otherwise.
+
 - The guide's text is published by Google under the
   [Creative Commons Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/).
 - `references/rules-catalog.md` paraphrases the guide's rules and quotes its section headings
   verbatim, so that every finding can be traced back to the section it comes from.
-- The code in `scripts/`, `tests/` and `.config/`, and the prose in `SKILL.md`,
-  `README.md` and `references/refactoring-playbook.md`, are original to this repository
-  and MIT-licensed (see `LICENSE`).
+- The code in `scripts/` and `tests/`, the repository tooling in `.config/`, and the prose in
+  `SKILL.md`, `README.md` and `references/refactoring-playbook.md`, are original to this
+  repository and MIT-licensed (see `LICENSE`).
 
 This project is not affiliated with or endorsed by Google.

@@ -1,0 +1,22 @@
+#!/bin/sh
+# Refuse to push a tree that is not stamped with its own CalVer version.
+#
+# There is no CI in this repository, so the pre-push hook is the gate: the version in
+# pyproject.toml must equal the CalVer version derived from the commit being pushed, and
+# the importable ZIP must already exist. `mise run release` does all of it in one step.
+#
+# Install the hook with `mise run hooks` (sets core.hooksPath to .githooks).
+
+set -eu
+
+# Tag pushes carry the release tag created by `scripts/release.py`; nothing to verify.
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+    case "$remote_ref" in
+        refs/tags/*) continue ;;
+    esac
+    if ! uv run skills/rust-style-guide-audit/scripts/release.py check; then
+        echo "" >&2
+        echo "pre-push: not released. Run 'mise run release' and push again." >&2
+        exit 1
+    fi
+done

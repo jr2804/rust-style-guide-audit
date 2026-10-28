@@ -3,7 +3,7 @@
 `scripts/self_test.py` owns the assertions and is runnable on its own (`uv run
 scripts/self_test.py`), which is what an agent invokes. This module only re-exports its
 groups as pytest cases so `mise run test` reports per-group failures instead of one opaque
-line, and so CI can `--last-failed`.
+line, and so the suite can `--last-failed`.
 """
 
 from __future__ import annotations

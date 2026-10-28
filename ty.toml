@@ -1,14 +1,14 @@
 # Type-checker configuration — https://docs.astral.sh/ty/
 #
-# `scripts/` holds the shipped code, `tests/` the pytest suite, and `.config/mise/scripts/`
-# the repository tooling — all of it is checked.
+# `skills/<skill>/scripts/` holds the shipped code, `tests/` the pytest suite, and
+# `.config/mise/scripts/` the repository tooling — all of it is checked.
 
 [environment]
 python-version = "3.10"
-extra-paths = ["scripts", "tests", ".config/mise/scripts"]
+extra-paths = ["skills/rust-style-guide-audit/scripts", "tests", ".config/mise/scripts"]
 
 [src]
-include = ["scripts", "tests", ".config/mise/scripts"]
+include = ["skills/rust-style-guide-audit/scripts", "tests", ".config/mise/scripts"]
 
 [terminal]
 error-on-warning = true
