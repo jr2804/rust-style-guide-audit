@@ -9,5 +9,6 @@ run = "uv run scripts/self_test.py"
 
 [tasks.check]
 description = "Lint, type-check, test and self-test everything"
-depends = ["lint", "lint-md", "typecheck", "test", "self-test"]
+# `sync` first: ty and pytest both need the dev virtualenv on a fresh checkout.
+depends = ["sync", "lint", "lint-md", "typecheck", "test", "self-test"]
 run = "echo 'all gates green'"

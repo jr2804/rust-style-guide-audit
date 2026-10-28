@@ -25,6 +25,9 @@ run = "rumdl check --config .config/rumdl.toml ./"
 
 [tasks.typecheck]
 description = "Type-check scripts and tests with ty"
+# ty reads the interpreter's site-packages, so the dev venv must exist before the first
+# run on a fresh checkout (CI: `mise run check` starts all tasks at once).
+depends = ["sync"]
 run = "ty check"
 
 [tasks.test]
