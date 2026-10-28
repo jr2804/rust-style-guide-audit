@@ -28,4 +28,4 @@ run = "bun x skills list"
 description = "Validate SKILL.md against the Agent Skills specification"
 # The validator compares the frontmatter `name` with the directory's basename, so it needs
 # the absolute path — `validate .` fails with "Directory name '' must match skill name".
-run = "uvx --from skills-ref agentskills validate '{{config_root}}'"
+run = "uvx --from skills-ref agentskills validate {{config_root}}"
