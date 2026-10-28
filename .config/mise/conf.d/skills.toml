@@ -23,3 +23,9 @@ run = "uv run .config/mise/scripts/install_dev_features.py add-dev-features"
 [tasks.list-skills]
 description = "List the skills currently installed for agents"
 run = "bun x skills list"
+
+[tasks.validate-skill]
+description = "Validate SKILL.md against the Agent Skills specification"
+# The validator compares the frontmatter `name` with the directory's basename, so it needs
+# the absolute path — `validate .` fails with "Directory name '' must match skill name".
+run = "uvx --from skills-ref agentskills validate '{{config_root}}'"
