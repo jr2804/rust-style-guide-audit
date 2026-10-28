@@ -62,12 +62,22 @@ Google.
 
 ### As an agent skill
 
+Globally install the skill with the following command:
+
+```bash
+bun x skills add jr2804/rust-style-guide-audit -g -a universal -y
+```
+
+Or local install:
+
 ```bash
 bun x skills add jr2804/rust-style-guide-audit -a universal -y
 ```
 
-That installs into `~/.agents/skills/rust-style-guide-audit`, where Claude Code, pi, Cursor and
-other agents pick it up. Invoke it as `/skill:rust-style-guide-audit <paths>`, or just ask for a
+The `-g` is load-bearing: without it `skills add` installs into the *current project's*
+`.agents/skills/`, not into `~/.agents/skills/`. With it the skill lands in
+`~/.agents/skills/rust-style-guide-audit`, where Claude Code, pi, Cursor and other agents pick
+it up. Invoke it as `/skill:rust-style-guide-audit <paths>`, or just ask for a
 Rust style review — the skill description carries the trigger words.
 
 ### As a one-off script

@@ -6,9 +6,9 @@
 [tasks.fmt]
 description = "Format Python and Markdown"
 run = [
-    "ruff check --select I --fix skills/ tests/ .config/mise/scripts/",
-    "ruff format skills/ tests/ .config/mise/scripts/",
-    "rumdl fmt --config .config/rumdl.toml ./",
+  "ruff check --select I --fix skills/ tests/ .config/mise/scripts/",
+  "ruff format skills/ tests/ .config/mise/scripts/",
+  "rumdl fmt --config .config/rumdl.toml ./",
 ]
 
 [tasks.fmt-md]

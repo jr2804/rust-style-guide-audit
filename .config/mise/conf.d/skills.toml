@@ -10,7 +10,7 @@
 
 [tasks.install-skill]
 description = "Install this skill into ~/.agents/skills so agents can invoke it"
-run = "bun x skills add jr2804/rust-style-guide-audit -a universal -y"
+run = "bun x skills add jr2804/rust-style-guide-audit -g -a universal -y"
 
 [tasks.add-skills]
 description = "Install the companion skills listed in .config/mise/data/skills.csv"
